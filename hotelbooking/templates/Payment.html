@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     
+
+</head>
+<body>
+    <h1>{{data.ordernumber}}</h1>
+<h1>{{data.first_name}}</h1>
+<h1>{{data.last_name}}</h1>
+<h1>{{data.ordernumber}}</h1>
+<h1>{{data.address}}</h1>
+<h1>{{data.City}}</h1>
+<h1>{{data.pincode}}</h1>
+<h1>{{tprice}}</h1>
+<button class="btn btn-danger" id="pay-btn">Pay using Razor Pay</button>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                        <script>
+                          var options = {
+                             
+                            // Enter the Key ID generated from the Dashboard
+                            key: "rzp_test_VAmgTyk4nJzm7n", 
+                            amount:"{{tprice}}",
+                            currency: "INR",
+                            name: "Pet Store", 
+                             
+                            // Pass the `id` obtained
+                             
+                            "handler": function(response) {
+            console.log("success");
+            console.log(response)
+
+            window.location.href = `http://127.0.0.1:8000/app/paymentsuccess?ordernumber={{data.ordernumber}}&payment_id=${response.razorpay_payment_id}`
+                          }}
+                           
+                          // initialise razorpay with the options.
+                          var rzp1 = new Razorpay(options)
+                           
+                          // add event listener to the payment button.
+                          document.getElementById("pay-btn").onclick = function (e) {
+                            rzp1.open(),
+                            e.preventDefault();
+                          }
+                        </script>
+
+</body>
+</html>
